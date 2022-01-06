@@ -1,6 +1,7 @@
 # Kanbanana
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.2.
+For my web fullstack development course (WDD 430) at BYU-Idaho.
 
 ## Development server
 
