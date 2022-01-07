@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CardSchema } from "../CardSchema";
 
 @Component({
   selector: 'app-card',
@@ -9,6 +10,8 @@ export class CardComponent implements OnInit {
 
   todoList: string[];
 
+  @Input() card: CardSchema;
+
   constructor() {
     this.todoList = [
       "wash car",
@@ -17,7 +20,10 @@ export class CardComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {
+  ngOnInit() {}
+  
+  dragStart(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
   }
 
 }

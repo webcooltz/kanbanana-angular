@@ -3,4 +3,9 @@
   <ul>
     <li *ngFor="let todo of todoList">{{ todo }}</li>
   </ul>
+
+  <p class="card" draggable="true" (dragstart)="dragStart($event)" id="{{card.id}}">
+    {{card.description}}
+  </p>
+
 </div>
