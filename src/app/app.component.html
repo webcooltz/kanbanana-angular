@@ -1,14 +1,56 @@
-<body>
+  <mat-toolbar color="primary">
+    <mat-icon>local_fire_department</mat-icon>
+    <span>{{ title }}</span>
+  </mat-toolbar>
 
-  <header>
-    <h1 class="text-center">
-      {{ title }}
-    </h1>
+  <div class="container-wrapper">
+  <div class="container">
+    <h2>Backlog</h2>
 
-  </header>
+    <mat-card
+      cdkDropList
+      id="todo"
+      #todoList="cdkDropList"
+      [cdkDropListData]="todo"
+      [cdkDropListConnectedTo]="[doneList, inProgressList]"
+      (cdkDropListDropped)="drop($event)"
+      class="list">
+      <p class="empty-label" *ngIf="todo.length === 0">Empty list</p>
+      <app-task (edit)="editTask('todo', $event)" *ngFor="let task of todo" cdkDrag [task]="task"></app-task>
+    </mat-card>
+  </div>
 
-  <app-board></app-board>
+  <div class="container">
+    <h2>In progress</h2>
 
-</body>
+    <mat-card
+      cdkDropList
+      id="inProgress"
+      #inProgressList="cdkDropList"
+      [cdkDropListData]="inProgress"
+      [cdkDropListConnectedTo]="[todoList, doneList]"
+      (cdkDropListDropped)="drop($event)"
+      class="list">
+      <p class="empty-label" *ngIf="inProgress.length === 0">Empty list</p>
+      <app-task (edit)="editTask('inProgress', $event)" *ngFor="let task of inProgress" cdkDrag [task]="task"></app-task>
+    </mat-card>
+  </div>
+
+  <div class="container">
+    <h2>Done</h2>
+
+    <mat-card
+      cdkDropList
+      id="done"
+      #doneList="cdkDropList"
+      [cdkDropListData]="done"
+      [cdkDropListConnectedTo]="[todoList, inProgressList]"
+      (cdkDropListDropped)="drop($event)"
+      class="list">
+      <p class="empty-label" *ngIf="done.length === 0">Empty list</p>
+      <app-task (edit)="editTask('done', $event)" *ngFor="let task of done" cdkDrag [task]="task"></app-task>
+    </mat-card>
+  </div>
+</div>
 
 <router-outlet></router-outlet>
