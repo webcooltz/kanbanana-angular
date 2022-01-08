@@ -3,6 +3,13 @@
     <span>{{ title }}</span>
   </mat-toolbar>
 
+  <div class="content-wrapper">
+
+  <button (click)="newTask()" mat-button>
+    <mat-icon>add</mat-icon>
+      Add Task
+  </button>
+
   <div class="container-wrapper">
   <div class="container">
     <h2>Backlog</h2>
@@ -54,3 +61,4 @@
 </div>
 
 <router-outlet></router-outlet>
+</div>
