@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "kanbanana-a1ef6": {
+      "hosting": {
+        "kanbanana": [
+          "kanbanana-a1ef6"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "kanbanana-a1ef6"
+  }
+}

@@ -1,64 +1,84 @@
-  <mat-toolbar color="primary">
-    <mat-icon>local_fire_department</mat-icon>
-    <span>{{ title }}</span>
-  </mat-toolbar>
+  <header>
 
-  <div class="content-wrapper">
+    <mat-toolbar color="primary">
+      <mat-icon>local_fire_department</mat-icon>
+      <span>{{ title }}</span>
+    </mat-toolbar>
 
-  <button (click)="newTask()" mat-button>
-    <mat-icon>add</mat-icon>
-      Add Task
-  </button>
+  </header>
 
-  <div class="container-wrapper">
-  <div class="container">
-    <h2>Backlog</h2>
+  <body>
 
-    <mat-card
-      cdkDropList
-      id="todo"
-      #todoList="cdkDropList"
-      [cdkDropListData]="todo"
-      [cdkDropListConnectedTo]="[doneList, inProgressList]"
-      (cdkDropListDropped)="drop($event)"
-      class="list">
-      <p class="empty-label" *ngIf="todo.length === 0">Empty list</p>
-      <app-task (edit)="editTask('todo', $event)" *ngFor="let task of todo" cdkDrag [task]="task"></app-task>
-    </mat-card>
+    `<div class="content-wrapper">
+
+    <button (click)="newTask()" mat-button>
+      <mat-icon>add</mat-icon>
+        Add Task
+    </button>
+
+    <div class="container-wrapper">
+    <div class="container">
+      <h2>Backlog</h2>
+
+      <mat-card
+        cdkDropList
+        id="todo"
+        #todoList="cdkDropList"
+        [cdkDropListData]="todo | async"
+        [cdkDropListConnectedTo]="[doneList, inProgressList]"
+        (cdkDropListDropped)="drop($event)"
+        class="list">
+        <p class="empty-label" *ngIf="(todo | async)?.length === 0">Empty list</p>
+        <app-task (edit)="editTask('todo', $event)" *ngFor="let task of todo | async" cdkDrag [task]="task"></app-task>
+      </mat-card>
+    </div>
+
+    <div class="container">
+      <h2>In progress</h2>
+      <mat-card
+        cdkDropList
+        id="inProgress"
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgress"
+        [cdkDropListConnectedTo]="[todoList, doneList]"
+        (cdkDropListDropped)="drop($event)"
+        class="list">
+        <p class="empty-label" *ngIf="inProgress.length === 0">Empty list</p>
+        <app-task (edit)="editTask('inProgress', $event)" *ngFor="let task of inProgress" cdkDrag [task]="task"></app-task>
+      </mat-card>
+    </div>
+
+    <div class="container">
+      <h2>Done</h2>
+      <mat-card
+        cdkDropList
+        id="done"
+        #doneList="cdkDropList"
+        [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="[todoList, inProgressList]"
+        (cdkDropListDropped)="drop($event)"
+        class="list">
+        <p class="empty-label" *ngIf="done.length === 0">Empty list</p>
+        <app-task (edit)="editTask('done', $event)" *ngFor="let task of done" cdkDrag [task]="task"></app-task>
+      </mat-card>
+
+    </div>
   </div>
 
-  <div class="container">
-    <h2>In progress</h2>
-
-    <mat-card
-      cdkDropList
-      id="inProgress"
-      #inProgressList="cdkDropList"
-      [cdkDropListData]="inProgress"
-      [cdkDropListConnectedTo]="[todoList, doneList]"
-      (cdkDropListDropped)="drop($event)"
-      class="list">
-      <p class="empty-label" *ngIf="inProgress.length === 0">Empty list</p>
-      <app-task (edit)="editTask('inProgress', $event)" *ngFor="let task of inProgress" cdkDrag [task]="task"></app-task>
-    </mat-card>
+  <router-outlet></router-outlet>
   </div>
 
-  <div class="container">
-    <h2>Done</h2>
+</body>
 
-    <mat-card
-      cdkDropList
-      id="done"
-      #doneList="cdkDropList"
-      [cdkDropListData]="done"
-      [cdkDropListConnectedTo]="[todoList, inProgressList]"
-      (cdkDropListDropped)="drop($event)"
-      class="list">
-      <p class="empty-label" *ngIf="done.length === 0">Empty list</p>
-      <app-task (edit)="editTask('done', $event)" *ngFor="let task of done" cdkDrag [task]="task"></app-task>
-    </mat-card>
-  </div>
-</div>
-
-<router-outlet></router-outlet>
-</div>
+<script>
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCl3UVkjc3EFa4khXC2KRdrtNeuCD1QMZQ",
+    authDomain: "kanbanana-a1ef6.firebaseapp.com",
+    projectId: "kanbanana-a1ef6",
+    storageBucket: "kanbanana-a1ef6.appspot.com",
+    messagingSenderId: "552386641287",
+    appId: "1:552386641287:web:e034adb58a8d9375a5e722",
+    measurementId: "G-FKZ0WL11MX"
+  };
+</script>
