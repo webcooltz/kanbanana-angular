@@ -1,14 +1,18 @@
 {
   "targets": {
-    "kanbanana-a1ef6": {
+    "angular-projects-ccc68": {
       "hosting": {
         "kanbanana": [
-          "kanbanana-a1ef6"
+          "angular-projects-ccc68"
+        ]
+      }
+    },
+    "kanbanana2-ff1f1": {
+      "hosting": {
+        "kanbanana": [
+          "kanbanana2-ff1f1"
         ]
       }
     }
-  },
-  "projects": {
-    "default": "kanbanana-a1ef6"
   }
 }

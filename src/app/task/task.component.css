@@ -1,8 +1,8 @@
 :host {
-    display: block;
-  }
-  
-  .item {
-    margin-bottom: 10px;
-    cursor: pointer;
-  }
+  display: block;
+}
+
+.item {
+  margin-bottom: 10px;
+  cursor: pointer;
+}

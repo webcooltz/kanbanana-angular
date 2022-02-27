@@ -1,27 +1,33 @@
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-
 import { Task } from './task/task';
 
-import { TaskDialogComponent } from './task-dialog/task-dialog.component';
-import { TaskDialogResult } from './task-dialog/task-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TaskDialogComponent, TaskDialogResult } from './task-dialog/task-dialog.component';
 
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Firestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+
+
+const getObservable = (collection: AngularFirestoreCollection<Task>) => {
+  const subject = new BehaviorSubject<Task[]>([]);
+  collection.valueChanges({ idField: 'id' }).subscribe((val: Task[]) => {
+    subject.next(val);
+  });
+  return subject;
+};
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-
 export class AppComponent {
-  todo = this.store.collection('todo').valueChanges({ idField: 'id' }) as Observable<Task[]>;
-  inProgress = this.store.collection('inProgress').valueChanges({ idField: 'id' }) as Observable<Task[]>;
-  done = this.store.collection('done').valueChanges({ idField: 'id' }) as Observable<Task[]>;
-  title = 'kanbanana';
+  todo = getObservable(this.store.collection('todo')) as Observable<Task[]>;
+  inProgress = getObservable(this.store.collection('inProgress')) as Observable<Task[]>;
+  done = getObservable(this.store.collection('done')) as Observable<Task[]>;
 
   constructor(private dialog: MatDialog, private store: AngularFirestore) {}
 
@@ -34,11 +40,11 @@ export class AppComponent {
     });
     dialogRef
       .afterClosed()
-      .subscribe((result: TaskDialogResult|undefined) => {
+      .subscribe((result: TaskDialogResult) => {
         if (!result) {
           return;
         }
-        this.todo.push(result.task);
+        this.store.collection('todo').add(result.task)
       });
   }
 
@@ -60,9 +66,10 @@ export class AppComponent {
         this.store.collection(list).doc(task.id).update(task);
       }
     });
+
   }
 
-  drop(event: CdkDragDrop<Task[]>): void {
+  drop(event: CdkDragDrop<Task[]> | any): void {
     if (event.previousContainer === event.container) {
       return;
     }
@@ -74,14 +81,6 @@ export class AppComponent {
       ]);
       return promise;
     });
-    transferArrayItem(
-      event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex
-    );
-  }
-
     transferArrayItem(
       event.previousContainer.data,
       event.container.data,
